@@ -48,19 +48,12 @@ export async function getReview(slug: string): Promise<Review> {
     }
   );
 
-  const reviewUrl = API_URL + "/reviews?" + query;
-  const response = await fetch(reviewUrl);
-  const { data } = await response.json();
+  const { data } = await fetchReviews(query);
   const review = data[0];
-  const { title, subtitle, body } = review.attributes;
 
   return {
-    slug: review.attributes.slug,
-    title,
-    subtitle,
-    date: review.attributes.publishedAt.slice(0, "yyyy-mm-dd".length),
-    image: CMS_URL + review.attributes.image.data.attributes.url,
-    body: marked(body),
+    ...toReview(review),
+    body: marked(review.attributes.body),
   };
 }
 
@@ -93,22 +86,32 @@ export async function getReviews(): Promise<Review[]> {
     }
   );
 
-  const reviewsUrl = API_URL + "/reviews?" + query;
-  const response = await fetch(reviewsUrl);
-  const json = await response.json();
+  const { data } = await fetchReviews(query);
 
-  const reviews = json.data.map((review) => {
-    const { slug, title, subtitle } = review.attributes;
-    return {
-      slug,
-      title,
-      subtitle,
-      date: review.attributes.publishedAt.slice(0, "yyyy-mm-dd".length),
-      image: CMS_URL + review.attributes.image.data.attributes.url,
-    };
-  });
+  const reviews = data?.map(toReview);
 
   return reviews;
+}
+
+async function fetchReviews(params) {
+  const reviewsUrl = API_URL + "/reviews?" + params;
+  const response = await fetch(reviewsUrl);
+
+  if (!response.ok) {
+    throw new Error("CMS returned" + response.status + " for " + reviewsUrl);
+  }
+  return await response.json();
+}
+
+function toReview(item) {
+  const { attributes } = item;
+  return {
+    slug: attributes.slug,
+    title: attributes.title,
+    subtitle: attributes.subtitle,
+    date: attributes.publishedAt.slice(0, "yyyy-mm-dd".length),
+    image: CMS_URL + attributes.image.data.attributes.url,
+  };
 }
 
 export async function getSlugs(): Promise<string[]> {
