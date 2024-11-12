@@ -1,5 +1,3 @@
-import { readdir, readFile } from "node:fs/promises";
-import matter from "gray-matter";
 import { marked } from "marked";
 import qs from "qs";
 const CMS_URL =
@@ -115,8 +113,23 @@ function toReview(item) {
 }
 
 export async function getSlugs(): Promise<string[]> {
-  const files = await readdir("./content/reviews");
-  return files
-    .filter((file) => file.endsWith(".md"))
-    .map((file) => file.slice(0, -".md".length));
+  // const files = await readdir("./content/reviews");
+  // return files
+  //   .filter((file) => file.endsWith(".md"))
+  //   .map((file) => file.slice(0, -".md".length));
+  const query = qs.stringify(
+    {
+      fields: ["slug"],
+      sort: ["publishedAt:desc"],
+      pagination: {
+        pageSize: 100,
+      },
+    },
+    {
+      encodeValuesOnly: true, // prettify URL and don't include parameters name
+    }
+  );
+  const { data } = await fetchReviews(query);
+
+  return data?.map((data) => data.attributes.slug);
 }

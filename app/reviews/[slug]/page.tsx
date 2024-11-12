@@ -11,10 +11,13 @@ interface ReviewPageProps {
   params: ReviewPageParams;
 }
 
-// export async function generateStaticParams(): Promise<ReviewPageParams[]> {
-//   const slugs = await getSlugs();
-//   return slugs.map((slug) => ({ slug }));
-// }
+// The generateStaticParams function can be used in combination with dynamic route segments to statically generate routes at build time instead of on-demand at request time.
+// Return a list of `params` to populate the [slug] dynamic segment
+export async function generateStaticParams(): Promise<ReviewPageParams[]> {
+  const slugs = await getSlugs();
+  const slugsMap = slugs.map((slug) => ({ slug }));
+  return slugsMap;
+}
 
 // export async function generateMetadata({ params: { slug } }: ReviewPageProps): Promise<Metadata> {
 //   const review = await getReview(slug);
@@ -23,9 +26,11 @@ interface ReviewPageProps {
 //   };
 // }
 
+
+// Multiple versions of this page will be statically generated
+// using the `params` returned by `generateStaticParams`
 export default async function ReviewPage({ params: { slug } }: ReviewPageProps) {
   const review = await getReview(slug);
-  console.log(review);
   return (
     <>
       <Heading>{review.title}</Heading>
