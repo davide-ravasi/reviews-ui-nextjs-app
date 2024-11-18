@@ -1,4 +1,15 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
-  output: "",
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '1337-davideravas-reviewscmss-fad3fyv2ra8.ws-eu116.gitpod.io',
+        port: '',
+        pathname: '/uploads/**',
+      },
+    ],
+  },
 };
+
+// https://1337-davideravas-reviewscmss-fad3fyv2ra8.ws-eu116.gitpod.io/uploads/human_fall_flat_c7e0c87e07.jpg
