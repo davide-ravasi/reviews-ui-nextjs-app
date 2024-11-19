@@ -43,7 +43,7 @@ export default async function ReviewPage({ params: { slug } }: ReviewPageProps) 
         width="640" height="360" className="mb-2 rounded"
       /> */}
       <Image src={review.image} alt=""
-        width="640" height="360" className="mb-2 rounded" />
+        width="640" height="360" className="mb-2 rounded" priority />
       <article dangerouslySetInnerHTML={{ __html: review.body }}
         className="max-w-screen-sm prose prose-slate"
       />

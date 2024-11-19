@@ -14,10 +14,10 @@ export interface Review {
   body: string;
 }
 
-export async function getFeaturedReview(): Promise<Review> {
-  const reviews = await getReviews();
-  return reviews[0];
-}
+// export async function getFeaturedReview(): Promise<Review> {
+//   const reviews = await getReviews();
+//   return reviews[0];
+// }
 
 export async function getReview(slug: string): Promise<Review> {
   // const text = await readFile(`./content/reviews/${slug}.md`, "utf8");
@@ -55,7 +55,7 @@ export async function getReview(slug: string): Promise<Review> {
   };
 }
 
-export async function getReviews(): Promise<Review[]> {
+export async function getReviews(count: number): Promise<Review[]> {
   // const slugs = await getSlugs();
   // const reviews: Review[] = [];
   // for (const slug of slugs) {
@@ -76,7 +76,7 @@ export async function getReviews(): Promise<Review[]> {
       },
       sort: ["publishedAt:desc"],
       pagination: {
-        pageSize: 6,
+        pageSize: count,
       },
     },
     {
