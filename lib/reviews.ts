@@ -1,9 +1,11 @@
 import { marked } from "marked";
 import qs from "qs";
 const CMS_URL =
-  "https://1337-davideravas-reviewscmss-fad3fyv2ra8.ws-eu116.gitpod.io";
+  "https://1337-davideravas-reviewscmss-u5ly3m8kd39.ws-eu116.gitpod.io";
 const API_URL =
-  "https://1337-davideravas-reviewscmss-fad3fyv2ra8.ws-eu116.gitpod.io/api/";
+  "https://1337-davideravas-reviewscmss-u5ly3m8kd39.ws-eu116.gitpod.io/api/";
+
+//1337-davideravas-reviewscmss-u5ly3m8kd39.ws-eu116.gitpod.io
 
 export interface Review {
   slug: string;

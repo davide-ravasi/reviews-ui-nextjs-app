@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+//import type { Metadata } from 'next';
 import Heading from '@/components/Heading';
 import ShareLinkButton from '@/components/ShareLinkButton';
 import { getReview, getSlugs } from '@/lib/reviews';
@@ -9,7 +9,7 @@ interface ReviewPageParams {
 }
 
 interface ReviewPageProps {
-  params: ReviewPageParams;
+  params: ReviewPageParams; 
 }
 
 // The generateStaticParams function can be used in combination with dynamic route segments to statically generate routes at build time instead of on-demand at request time.
@@ -32,9 +32,11 @@ export async function generateStaticParams(): Promise<ReviewPageParams[]> {
 // using the `params` returned by `generateStaticParams`
 export default async function ReviewPage({ params: { slug } }: ReviewPageProps) {
   const review = await getReview(slug);
+  console.log('[reviewPage] rendering: ', slug);
   return (
     <>
       <Heading>{review.title}</Heading>
+      <p className="font-semibold pb-3">{review.subtitle}</p>
       <div className="flex gap-3 items-baseline">
         <p className="italic pb-2">{review.date}</p>
         <ShareLinkButton />

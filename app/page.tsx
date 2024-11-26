@@ -5,6 +5,9 @@ import Image from 'next/image';
 
 export default async function HomePage() {
   const reviews = await getReviews(3);
+  console.log("reviews", reviews);
+
+  console.log('[homePage] rendering: ', reviews.map((review) => review.slug).join(" "));
   return (
     <>
       <Heading>Indie Gamer</Heading>
@@ -22,9 +25,12 @@ export default async function HomePage() {
                 className="rounded-t sm:rounded-l sm:rounded-r-none"
                 priority={index === 0}
               />
-              <h2 className="font-orbitron font-semibold py-1 text-center sm:px-2">
-                {review.title}
-              </h2>
+              <div className="py-1 px-2 text-center sm:text-left">
+                <h2 className="font-orbitron font-semibold">
+                  {review.title}
+                </h2>
+                <h3 className="hidden pt-2 sm:block">{review.subtitle}</h3>
+              </div>
             </Link>
           </li>
         ))}
